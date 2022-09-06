@@ -1,0 +1,10 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+       sliders:
+           uri_prefix: /images/slider
+           upload_destination: '%kernel.project_dir%/public/images/slider'
+       chambres:
+           uri_prefix: /images/chambre
+           upload_destination: '%kernel.project_dir%/public/images/chambre'

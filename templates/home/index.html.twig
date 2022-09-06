@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="carousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+{% set cpt = 0 %}
+{% set actif = true %}
+{% for slid in sliders %}
+    {% if actif == true %}
+        {% set actif = false %}
+    <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{ cpt }}" class="active" aria-current="true" aria-label="Slide {{ cpt }}"></button>
+    {% else %}
+    <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{ cpt }}" aria-label="Slide {{ cpt }}"></button>
+    {% endif %}
+    {% set cpt = cpt+1 %}
+{% endfor %}
+  </div>
+
+<div class="carousel-inner">
+{% set actif = true %}
+{% for slid in sliders %}
+    {% if actif == true %}
+        {% set actif = false %}
+        <div class="carousel-item active">
+    {% else %}
+        <div class="carousel-item">
+    {% endif %}
+      <img src="{{ asset('img/slider/' ~ slid.photo) }}" class="d-block w-100 img-fluid" style="max-height:50vh;" alt="...">
+    </div>
+  
+{% endfor %}
+</div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+{% endblock %}
