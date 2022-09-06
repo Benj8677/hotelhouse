@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ServiceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ServiceRepository;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ServiceRepository::class)]
 class Service
@@ -26,6 +31,11 @@ class Service
     #[ORM\Column(length: 120, nullable: true)]
     private ?string $photo = null;
 
+    /**
+     * @Vich\UploadableField(mapping="services", fileNameProperty="photo")
+     */
+    private $imageFile = null;
+    
     #[ORM\Column]
     private ?int $prix = null;
 
@@ -40,6 +50,14 @@ class Service
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateEnreg = null;
+
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: Avis::class)]
+    private Collection $avis;
+
+    public function __construct()
+    {
+        $this->avis = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -150,6 +168,58 @@ class Service
     public function setDateEnreg(\DateTimeInterface $dateEnreg): self
     {
         $this->dateEnreg = $dateEnreg;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): ?Self
+    {
+        $this->imageFile = $imageFile;
+
+        if($this->imageFile instanceof UploadedFile)
+        {
+            $this->dateModif = new \DateTime;
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->titre;
+    }
+
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis->add($avi);
+            $avi->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getService() === $this) {
+                $avi->setService(null);
+            }
+        }
 
         return $this;
     }

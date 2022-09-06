@@ -54,10 +54,14 @@ class Chambre
     #[ORM\OneToMany(mappedBy: 'chambre', targetEntity: Actu::class)]
     private Collection $actus;
 
+    #[ORM\OneToMany(mappedBy: 'chambre', targetEntity: Avis::class)]
+    private Collection $avis;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->actus = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -241,5 +245,35 @@ class Chambre
     public function __toString()
     {
         return $this->titre;
+    }
+
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis->add($avi);
+            $avi->setChambre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getChambre() === $this) {
+                $avi->setChambre(null);
+            }
+        }
+
+        return $this;
     }
 }

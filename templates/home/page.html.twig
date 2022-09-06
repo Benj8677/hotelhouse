@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page.titre }}{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('success') %}
+        <div class="alert alert-success text-center">{{ message }}</div>
+{% endfor %}
+
+<section class="row articles text-center justify-content-center">
+<h1 class="display-3 my-5 fw-bold">{{ page.titre }}</h1>
+{{ page.contenu|raw }}
+</section>
+
+{% endblock %}

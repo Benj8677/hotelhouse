@@ -56,11 +56,15 @@ class Membre implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'membre', targetEntity: Contact::class, orphanRemoval: true)]
     private Collection $contacts;
 
+    #[ORM\OneToMany(mappedBy: 'membre', targetEntity: Avis::class)]
+    private Collection $avis;
+
     public function __construct()
     {
         $this->dateDeb = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+        $this->avis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -287,5 +291,35 @@ class Membre implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->pseudo;
+    }
+
+    /**
+     * @return Collection<int, Avis>
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis->add($avi);
+            $avi->setMembre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->removeElement($avi)) {
+            // set the owning side to null (unless already changed)
+            if ($avi->getMembre() === $this) {
+                $avi->setMembre(null);
+            }
+        }
+
+        return $this;
     }
 }

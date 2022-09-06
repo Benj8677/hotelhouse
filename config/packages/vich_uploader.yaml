@@ -11,3 +11,6 @@ vich_uploader:
        actus:
            uri_prefix: /images/actu
            upload_destination: '%kernel.project_dir%/public/images/actu'
+       services:
+           uri_prefix: /images/service
+           upload_destination: '%kernel.project_dir%/public/images/service'

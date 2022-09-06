@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Repository\PageRepository;
 use App\Repository\SliderRepository;
 use App\Repository\ChambreRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,6 +21,15 @@ class HomeController extends AbstractController
         $sliders = $repo->findBy([], ['ordre' => 'ASC']);
         return $this->render('home/index.html.twig', [
             'sliders' => $sliders,
+        ]);
+    }
+
+    #[Route('/page/{id}', name: 'app_page')]
+    public function page(PageRepository $repo, $id): Response
+    {
+        $page = $repo->find($id);
+        return $this->render('home/page.html.twig', [
+            'page' => $page,
         ]);
     }
 
