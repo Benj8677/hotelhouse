@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Chambre;
+use App\Entity\Membre;
 use App\Entity\Slider;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,9 +32,10 @@ class DashboardController extends AbstractDashboardController
         return [
             MenuItem::linkToRoute('retour au site', 'fa fa-home', 'app_home'),
             MenuItem::section('Hotel'),
-            MenuItem::linkToCrud('Chambre', 'fas fa-list', Chambre::class),
+            MenuItem::linkToCrud('Chambre', 'fas fa-moon', Chambre::class),
+            MenuItem::linkToCrud('Membre', 'fas fa-user', Membre::class),
             MenuItem::section('Site'),
-            MenuItem::linkToCrud('Slider', 'fas fa-list', Slider::class),
+            MenuItem::linkToCrud('Slider', 'fas fa-images', Slider::class),
         ];
     }
 }
