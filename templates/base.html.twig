@@ -17,36 +17,94 @@
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="{{ path('app_home') }}">HotelHouse</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Home
+          <a class="nav-link active" href="{{ path('app_home') }}">Accueil
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" href="#">Nos Chambres</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Service</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Restaurant</a>
+            <a class="dropdown-item" href="#">Spa</a>
+            {# <a class="dropdown-item" href="#">Something else here</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
+            <a class="dropdown-item" href="#">Separated link</a> #}
           </div>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">L'hotel</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Qui sommes-nous ?</a>
+            <a class="dropdown-item" href="#">Actualités</a>
+            <a class="dropdown-item" href="#">Accès</a>
+            <a class="dropdown-item" href="#">Contact</a>
+          </div>
+        </li>
+      </ul>
+      <ul class="d-flex navbar-nav">
+            {% if app.user %}
+          {% if is_granted("ROLE_ADMIN") %}
+            <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_admin') }}">Admin</a>
+            </li>
+          {% endif %}
+            <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_compte') }}">Mon compte</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_logout') }}">Déconnection</a>
+            </li>
+      
+      {% else %}
+
+            {# <li class="nav-item">
+            <a class="nav-link" href="#" onclick="getElementById('float').style.display=''">Se connecter</a>
+            </li> #}
+            <li class="nav-item">
+            <a href="#" class="nav-link" onclick="getElementById('connect').style.display='';getElementById('body').style='background-color: rgba(0, 0, 0, 0.4);';">Se connecter</a>
+            </li>
+            <div class="text-center p-3" style="background:white;
+                                    border: solid 1px black;
+                                    width:350px;
+                                    height:370px;
+                                    position:absolute;
+                                    top:40vh;
+                                    left:0;
+                                    right:0;
+                                    bottom:0;
+                                    margin: auto;
+                                    display:none;
+                                    z-index:5;"
+                                    id="connect">
+    <form method="post" action="{{ path('app_login') }}">
+    <div class="text-end"><a href="#" onclick="getElementById('connect').style.display='none';getElementById('body').style='background-color: rgba(255, 255, 255, 1);';" class="text-dark pe-auto" onmouseover="cursor:pointer;">Fermé X</a>  </div>
+    <h1 class="h3 mb-3 font-weight-normal text-primary fw-bold">Se connecter</h1>
+    <label for="inputPseudo">Pseudo</label>
+    <input type="text" value="" name="pseudo" id="inputPseudo" class="form-control mb-2" autocomplete="username" placeholder="admin" required autofocus>
+    <label for="inputPassword">Mot de passe</label>
+    <input type="password" name="password" id="inputPassword" class="form-control mb-2" autocomplete="current-password" placeholder="azerty" required>
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+    <button class="btn btn-primary" type="submit">Se connecter</button>
+</form>
+<a href="{{ path('app_register') }}" class="btn btn-secondary">Créer un compte</a>
+                                </div>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+            </li>
+      {% endif %} 
       </ul>
       {# <form class="d-flex">
         <input class="form-control me-sm-2" type="text" placeholder="Search">
