@@ -33,7 +33,13 @@ class CartController extends AbstractController
             if ($this->getUser())
             {
                 $commande = new Commande;
-    
+                
+                $dateD = $form->get("dateDeb")->getData()->getTimestamp();
+                $dateR = $form->get("dateFin")->getData()->getTimestamp();
+                
+                $debut = (new \DateTime())->setTimestamp($dateD);
+                $fin = (new \DateTime())->setTimestamp($dateR);
+                
                 foreach ($cartWithData as $cart)
                 {
                     $order = new Order;
@@ -43,12 +49,6 @@ class CartController extends AbstractController
                     $commande->addOrder($order);
                     $manager->persist($order);
                 }
-                $dateD = $form->get("dateDeb")->getData()->getTimestamp();
-                $dateR = $form->get("dateFin")->getData()->getTimestamp();
-
-                $debut = (new \DateTime())->setTimestamp($dateD);
-                $fin = (new \DateTime())->setTimestamp($dateR);
-                
                 $membre = $this->getUser();
                 $commande->setDateEnreg(new \DateTime());
                 $commande->setMembre($membre);

@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
+use App\Form\ContactType;
 use App\Repository\SliderRepository;
 use App\Repository\ChambreRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +21,44 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'sliders' => $sliders,
         ]);
+    }
+
+    #[Route('/contact', name: 'app_contact')]
+    public function contact(EntityManagerInterface $manager, Request $superglobals): Response
+    {
+        if ($this->getUser())
+        {
+            $form = $this->createForm(ContactType::class);
+
+            $form->handleRequest($superglobals);
+    
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                if ($this->getUser())
+                {
+                    $contact = new Contact;
+                    $contact->setEmail($form->get("email")->getData());
+                    $contact->setContenu($form->get("contenu")->getData());
+                    $contact->setTitre($form->get("titre")->getData());
+                    $contact->setDateEnreg(new \DateTime());
+                    $contact->setMembre($this->getUser());
+
+                    $manager->persist($contact);
+                    $manager->flush();
+                            
+                    $this->addFlash('success', "Votre message a bien été envoyé.");
+                    return $this->redirectToRoute('app_compte');
+                }
+            }
+
+            return $this->renderForm('home/contact.html.twig',[
+                'contactForm' => $form,
+            ]);
+        }
+        else
+        {
+            return $this->redirectToRoute('app_login');
+        }
     }
 
     #[Route('/chambres', name: 'app_chambres')]

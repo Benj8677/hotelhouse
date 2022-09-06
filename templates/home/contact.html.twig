@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contactez nous{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('success') %}
+        <div class="alert alert-success text-center">{{ message }}</div>
+{% endfor %}
+
+<h1 class="my-5 fw-bold">Contactez-nous</h1>
+
+{% if app.user %}
+
+    {{ form_start(contactForm) }}
+        {{ form_row(contactForm.email) }}
+        {{ form_row(contactForm.titre) }}
+        {{ form_row(contactForm.contenu) }}
+
+        <button type="submit" class="btn btn-primary my-2">Envoyer</button>
+    {{ form_end(contactForm) }}
+{% else %}
+        <a href="#" class="btn btn-primary my-2" onclick="getElementById('connect').style.display='';">Se connecter</a>
+{% endif %}
+{% endblock %}

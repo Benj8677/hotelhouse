@@ -27,6 +27,9 @@ class Contact
     #[ORM\JoinColumn(nullable: false)]
     private ?membre $membre = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateEnreg = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Contact
     public function setMembre(?membre $membre): self
     {
         $this->membre = $membre;
+
+        return $this;
+    }
+
+    public function getDateEnreg(): ?\DateTimeInterface
+    {
+        return $this->dateEnreg;
+    }
+
+    public function setDateEnreg(\DateTimeInterface $dateEnreg): self
+    {
+        $this->dateEnreg = $dateEnreg;
 
         return $this;
     }
