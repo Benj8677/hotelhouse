@@ -120,43 +120,4 @@ class CartController extends AbstractController
         $cs->removeAll();
         return $this->redirectToRoute('app_cart');
     }
-
-    #[Route('/cart/valid', name:'cart_valid')]
-    public function validation(CartService $cs, EntityManagerInterface $manager)
-    {
-        if ($this->getUser())
-        {
-            $cartWithData = $cs->getCartWithData();
-            $commande = new Commande;
-
-            foreach ($cartWithData as $cart)
-            {
-                $order = new Order;
-                $order->setChambre($cart['product']);
-                $order->setCommande($commande);
-                $order->setQuantite($cart['quantity']);
-                $commande->addOrder($order);
-                $manager->persist($order);
-            }
-
-            $membre = $this->getUser();
-            $commande->setDateEnreg(new \DateTime());
-            $commande->setMembre($membre);
-            $commande->setDateDeb(new \DateTime());
-            $commande->setDateFin(new \DateTime());
-            $commande->setPrenom($this->getUser()->getPrenom());
-            $commande->setNom($membre->getNom());
-            $commande->setEmail($membre->getEmail());
-            $commande->setTelephone('06');
-            //dd($commande);
-            $manager->persist($commande);
-            $manager->flush();
-
-            $cs->removeAll();
-            $this->addFlash('success', "Votre réservation a été enregistré !");
-            return $this->redirectToRoute('app_compte',[
-                'membre' => $membre,
-            ]);
-        }
-    }
 }

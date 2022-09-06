@@ -40,7 +40,7 @@ class Commande
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateEnreg = null;
 
-    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: Order::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: Order::class, cascade: ['remove'])]
     private Collection $orders;
 
     public function __construct()

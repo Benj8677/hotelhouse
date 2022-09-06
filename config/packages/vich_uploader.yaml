@@ -8,3 +8,6 @@ vich_uploader:
        chambres:
            uri_prefix: /images/chambre
            upload_destination: '%kernel.project_dir%/public/images/chambre'
+       actus:
+           uri_prefix: /images/actu
+           upload_destination: '%kernel.project_dir%/public/images/actu'

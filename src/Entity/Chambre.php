@@ -51,9 +51,13 @@ class Chambre
     #[ORM\OneToMany(mappedBy: 'chambre', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\OneToMany(mappedBy: 'chambre', targetEntity: Actu::class)]
+    private Collection $actus;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->actus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,5 +206,40 @@ class Chambre
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Actu>
+     */
+    public function getActus(): Collection
+    {
+        return $this->actus;
+    }
+
+    public function addActu(Actu $actu): self
+    {
+        if (!$this->actus->contains($actu)) {
+            $this->actus->add($actu);
+            $actu->setChambre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActu(Actu $actu): self
+    {
+        if ($this->actus->removeElement($actu)) {
+            // set the owning side to null (unless already changed)
+            if ($actu->getChambre() === $this) {
+                $actu->setChambre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->titre;
     }
 }

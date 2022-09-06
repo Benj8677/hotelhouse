@@ -28,9 +28,10 @@
         <thead>
             <tr>
                 <th>Fait le</th>
+                <th>Date début</th>
+                <th>Date fin</th>
                 <th>Produit</th>
                 <th>Total</th>
-                <th>Statut</th>
             </tr>
         </thead>
         <tbody>
@@ -38,11 +39,15 @@
     {% for commande in commandes %}
             <tr class="align-middle">
                 <td scope="row" class='align-top'>{{ commande.dateEnreg|date("d/m/Y à H:i") }}</td>
-				<td>{# {% for produit in commande.chambre %}
-				<img src="{{ asset('img/produits/' ~ produit.photo) }}" style="width: 70px;">{{ produit.titre }} / Qté : {{ commande.quantite[produit.id] }}<hr class="m-0 p-0 text-white">
-				{% endfor %} #}</td>
-                <td class='align-top'> €</td>
-                <td class='align-top'></td>
+                <td scope="row" class='align-top'>{{ commande.dateDeb|date("d/m/Y à H:i") }}</td>
+                <td scope="row" class='align-top'>{{ commande.dateFin|date("d/m/Y à H:i") }}</td>
+				<td>{% set total = 0 %}
+                {% for order in commande.orders %}
+				{{ order.chambre.titre }} / Qté : {{ order.quantite }}<hr class="m-0 p-0 text-white">
+                {% set total = total + order.chambre.prix * order.quantite %}
+				{% endfor %}
+                </td>
+                <td class='align-top'>{{ total }} €</td>
             </tr>
     {% endfor %}
         </tbody>
