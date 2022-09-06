@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des t-shirt{% endblock %}
+{% block title %}Liste des chambres{% endblock %}
 
 {% block body %}
 
@@ -22,7 +22,7 @@
         </div><a href="{{ path('app_chambre', {id:chambre.id}) }}" class="btn btn-info">Détail</a>
         {% if app.user %}
             {% if chambre.nbChambre>0 %}
-            {# <a href="{{ path('cart_add', {id:chambre.id}) }}" class="btn btn-success m-3">Réserver</a> #}
+            <a href="{{ path('cart_add', {id:chambre.id}) }}" class="btn btn-success m-3">Réserver</a>
             {% else %}
                 <span class="btn text-danger">Indisponible</span>
             {% endif %}

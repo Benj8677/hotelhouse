@@ -20,7 +20,7 @@
         <div class="metadata text-info">Prix : {{ chambre.prix }} €</div>
         {% if app.user %}
             {% if chambre.nbChambre>0 %}
-            {# <a href="{{ path('cart_add', {id:chambre.id}) }}" class="btn btn-outline-success m-3">Ajouter au panier</a> #}
+            <a href="{{ path('cart_add', {id:chambre.id}) }}" class="btn btn-outline-success m-3">Réserver</a>
             {% else %}
                 <span class="text-danger">chambre indisponible</span>
             {% endif %}

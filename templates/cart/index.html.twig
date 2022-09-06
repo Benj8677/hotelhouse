@@ -1,20 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
+{% block title %}Votre panier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<h1 class="text-center">Votre panier</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/Symfony/projet4/src/Controller/CartController.php'|file_link(0) }}">src/Controller/CartController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/Symfony/projet4/templates/cart/index.html.twig'|file_link(0) }}">templates/cart/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% if items %}
+    <table class="table text-center align-middle">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% set prixTotal = 0 %}
+        {% for item in items %}             
+            <tr>
+                <td><img src="{{ asset('img/produits/' ~ item.product.photo) }}" alt="" class="img-fluid" style="max-width:50px;float:left;">{{ item.product.titre }}</td>
+                <td>{{ item.product.prix|number_format(2) }}€</td>
+                <td>
+                <a href="{{ path('cart_min', {id: item.product.id}) }}" class="text-decoration-none">-</i></a>
+                {{ item.quantity }}
+                <a href="{{ path('cart_add', {id: item.product.id}) }}" class="text-decoration-none">+</a>
+                </td>
+                <td>
+                {% set total = item.quantity*item.product.prix %}
+                {{ total|number_format(2) }} €
+                </td>
+                <td>
+                <a href="{{ path('cart_remove', {id: item.product.id}) }}" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+            {% set prixTotal = prixTotal+total %}
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="fw-bold text-end">Total commande :</td>
+                <td class="fw-bold" style='background-color: rgba(0, 0, 0, 0.4);'>{{ app.session.get('totalPrice')|number_format(2) }} €</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <a href="{{ path('cart_destroy') }}" class="btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>
+    <a href="{{ path('cart_destroy') }}" class="text-danger text-decoration-none">Vider le panier</i></a>
+
+                {% if app.user %}
+                {# <a href="{{ path('cart_valid') }}" class="btn btn-outline-success m-3">Terminer la commande</a> #}
+                {% endif %}
+    
+{% else %}
+
+    <p class="display-6 text-warning">Votre panier est vide</p>
+    
+{% endif %}
+
 {% endblock %}
