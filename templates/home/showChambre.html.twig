@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ chambre.titre }}{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('success') %}
+        <div class="alert alert-success text-center">{{ message }}</div>
+{% endfor %}
+
+<section class="row articles mx-auto">
+
+    <article class="col-md-10 mx-auto text-center border border-dark my-3 p-3">
+        <div class="content">
+            <h2 class='text-warning fw-bold'>{{ chambre.titre }}</h2>
+            <p class="text-secondary">{{ chambre.descShort|raw }}</p>
+            <img src="{{ asset('img/chambre/' ~ chambre.photo) }}" alt="" class="img-fluid" style="max-width:400px;float:left;">
+            <p class="text-secondary">{{ chambre.descLong|raw }}</p>
+        </div>
+        <div class="metadata text-info">Prix : {{ chambre.prix }} €</div>
+        {% if app.user %}
+            {% if chambre.nbChambre>0 %}
+            {# <a href="{{ path('cart_add', {id:chambre.id}) }}" class="btn btn-outline-success m-3">Ajouter au panier</a> #}
+            {% else %}
+                <span class="text-danger">chambre indisponible</span>
+            {% endif %}
+        {% else %}
+            <a href="{{ path('app_register') }}" class="btn btn-outline-success m-3">Créer un compte</a>
+            <a href="#" class="btn btn-outline-success m-3" onclick="getElementById('connect').style.display='';getElementById('body').style='background-color: rgba(0, 0, 0, 0.4);';">Se connecter</a>
+        {% endif %}
+    </article>
+
+</section>
+
+{% endblock %}

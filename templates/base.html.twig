@@ -29,7 +29,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Nos Chambres</a>
+          <a class="nav-link" href="{{ path('app_chambres') }}">Nos Chambres</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Service</a>
@@ -55,7 +55,7 @@
             {% if app.user %}
           {% if is_granted("ROLE_ADMIN") %}
             <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_admin') }}">Admin</a>
+            <a class="nav-link" href="{{ path('admin') }}">Admin</a>
             </li>
           {% endif %}
             <li class="nav-item">
