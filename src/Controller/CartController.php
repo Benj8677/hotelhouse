@@ -2,22 +2,79 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
+use App\Entity\Membre;
+use App\Entity\Commande;
+use App\Form\ResaChambreType;
 use App\Service\CartService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CartController extends AbstractController
 {
     #[Route('/cart', name: 'app_cart')]
-    public function index(CartService $cs): Response
+    public function index(Request $superglobals, EntityManagerInterface $manager, CartService $cs): Response
     {
         $cartWithData = $cs->getCartWithData();
         $cs->setNbProduct();
         $cs->setTotalCart();
 
-        return $this->render('cart/index.html.twig', [
+
+        $form = $this->createForm(ResaChambreType::class);
+
+        $form->handleRequest($superglobals);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            if ($this->getUser())
+            {
+                $commande = new Commande;
+    
+                foreach ($cartWithData as $cart)
+                {
+                    $order = new Order;
+                    $order->setChambre($cart['product']);
+                    $order->setCommande($commande);
+                    $order->setQuantite($cart['quantity']);
+                    $commande->addOrder($order);
+                    $manager->persist($order);
+                }
+                $dateD = $form->get("dateDeb")->getData()->getTimestamp();
+                $dateR = $form->get("dateFin")->getData()->getTimestamp();
+
+                $debut = (new \DateTime())->setTimestamp($dateD);
+                $fin = (new \DateTime())->setTimestamp($dateR);
+                
+                $membre = $this->getUser();
+                $commande->setDateEnreg(new \DateTime());
+                $commande->setMembre($membre);
+                $commande->setDateDeb($debut);
+                $commande->setDateFin($fin);
+                $commande->setPrenom($this->getUser()->getPrenom());
+                $commande->setNom($membre->getNom());
+                $commande->setEmail($membre->getEmail());
+                $commande->setTelephone($form->get("telephone")->getData());
+                //dd($commande);
+                $manager->persist($commande);
+                $manager->flush();
+
+                $cs->removeAll();
+                $this->addFlash('success', "Votre réservation a été enregistré !");
+                return $this->redirectToRoute('app_compte',[
+                    'membre' => $membre,
+                ]);
+            }
+        }
+
+
+
+        return $this->renderForm('cart/index.html.twig', [
             'items' => $cartWithData,
+            'formCommande' => $form,
         ]);
     }
 
@@ -31,15 +88,9 @@ class CartController extends AbstractController
     }
 
     #[Route('/cartend', name: 'app_cart_end')]
-    public function end(CartService $cs): Response
+    public function end(): Response
     {
-        $cartWithData = $cs->getCartWithData();
-        $cs->setNbProduct();
-        $cs->setTotalCart();
-
-        return $this->render('cart/end.html.twig', [
-            'items' => $cartWithData,
-        ]);
+        return $this->render('cart/compte.html.twig');
     }
 
     #[Route('/cart/add/{id}', name:'cart_add')]
@@ -68,5 +119,44 @@ class CartController extends AbstractController
     {
         $cs->removeAll();
         return $this->redirectToRoute('app_cart');
+    }
+
+    #[Route('/cart/valid', name:'cart_valid')]
+    public function validation(CartService $cs, EntityManagerInterface $manager)
+    {
+        if ($this->getUser())
+        {
+            $cartWithData = $cs->getCartWithData();
+            $commande = new Commande;
+
+            foreach ($cartWithData as $cart)
+            {
+                $order = new Order;
+                $order->setChambre($cart['product']);
+                $order->setCommande($commande);
+                $order->setQuantite($cart['quantity']);
+                $commande->addOrder($order);
+                $manager->persist($order);
+            }
+
+            $membre = $this->getUser();
+            $commande->setDateEnreg(new \DateTime());
+            $commande->setMembre($membre);
+            $commande->setDateDeb(new \DateTime());
+            $commande->setDateFin(new \DateTime());
+            $commande->setPrenom($this->getUser()->getPrenom());
+            $commande->setNom($membre->getNom());
+            $commande->setEmail($membre->getEmail());
+            $commande->setTelephone('06');
+            //dd($commande);
+            $manager->persist($commande);
+            $manager->flush();
+
+            $cs->removeAll();
+            $this->addFlash('success', "Votre réservation a été enregistré !");
+            return $this->redirectToRoute('app_compte',[
+                'membre' => $membre,
+            ]);
+        }
     }
 }

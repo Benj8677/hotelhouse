@@ -12,4 +12,40 @@
     </article>
 </section>
 
+
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success text-center">{{ message }}</div>
+	{% endfor %}
+
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-warning text-center">{{ message }}</div>
+	{% endfor %}
+
+
+<section id="commentaires" class="col-8 mx-auto">
+    <h2 class="text-center text-info m-3">Vos Commandes</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Fait le</th>
+                <th>Produit</th>
+                <th>Total</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% set commandes = membre.commandes|sort|reverse %}
+    {% for commande in commandes %}
+            <tr class="align-middle">
+                <td scope="row" class='align-top'>{{ commande.dateEnreg|date("d/m/Y à H:i") }}</td>
+				<td>{# {% for produit in commande.chambre %}
+				<img src="{{ asset('img/produits/' ~ produit.photo) }}" style="width: 70px;">{{ produit.titre }} / Qté : {{ commande.quantite[produit.id] }}<hr class="m-0 p-0 text-white">
+				{% endfor %} #}</td>
+                <td class='align-top'> €</td>
+                <td class='align-top'></td>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

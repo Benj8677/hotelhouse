@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div id="carousel" class="carousel slide" data-bs-ride="carousel">
+<div id="carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
   <div class="carousel-indicators">
 {% set cpt = 0 %}
 {% set actif = true %}
@@ -10,7 +10,7 @@
         {% set actif = false %}
     <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{ cpt }}" class="active" aria-current="true" aria-label="Slide {{ cpt }}"></button>
     {% else %}
-    <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{ cpt }}" aria-label="Slide {{ cpt }}"></button>
+    <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{ cpt }}" aria-label="Slide {{ cpt }}" data-bs-ride="carousel" data-bs-interval="2000"></button>
     {% endif %}
     {% set cpt = cpt+1 %}
 {% endfor %}

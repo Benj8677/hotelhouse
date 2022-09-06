@@ -14,31 +14,18 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Chambre $chambre = null;
-
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?Commande $commande = null;
 
     #[ORM\Column]
     private ?int $quantite = null;
 
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    private ?Chambre $chambre = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getChambre(): ?Chambre
-    {
-        return $this->chambre;
-    }
-
-    public function setChambre(Chambre $chambre): self
-    {
-        $this->chambre = $chambre;
-
-        return $this;
     }
 
     public function getCommande(): ?Commande
@@ -61,6 +48,18 @@ class Order
     public function setQuantite(int $quantite): self
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getChambre(): ?Chambre
+    {
+        return $this->chambre;
+    }
+
+    public function setChambre(?Chambre $chambre): self
+    {
+        $this->chambre = $chambre;
 
         return $this;
     }

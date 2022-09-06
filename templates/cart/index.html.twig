@@ -50,9 +50,22 @@
     <a href="{{ path('cart_destroy') }}" class="btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>
     <a href="{{ path('cart_destroy') }}" class="text-danger text-decoration-none">Vider le panier</i></a>
 
-                {% if app.user %}
-                {# <a href="{{ path('cart_valid') }}" class="btn btn-outline-success m-3">Terminer la commande</a> #}
-                {% endif %}
+        {% if app.user %}
+
+        {{ form_start(formCommande, {
+            attr:{
+                novalidate: 'novalidate'
+            }
+        }) }}
+
+        {{ form_row(formCommande.dateDeb) }}
+        {{ form_row(formCommande.dateFin) }}
+        {{ form_row(formCommande.telephone) }}
+
+        <button type="submit" class="btn btn-outline-success m-3 mx-5">Terminer la commande</button>
+        {{ form_end(formCommande) }}
+
+        {% endif %}
     
 {% else %}
 
