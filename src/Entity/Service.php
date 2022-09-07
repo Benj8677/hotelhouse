@@ -54,9 +54,13 @@ class Service
     #[ORM\OneToMany(mappedBy: 'service', targetEntity: Avis::class)]
     private Collection $avis;
 
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: Actu::class)]
+    private Collection $actus;
+
     public function __construct()
     {
         $this->avis = new ArrayCollection();
+        $this->actus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,6 +222,36 @@ class Service
             // set the owning side to null (unless already changed)
             if ($avi->getService() === $this) {
                 $avi->setService(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Actu>
+     */
+    public function getActus(): Collection
+    {
+        return $this->actus;
+    }
+
+    public function addActu(Actu $actu): self
+    {
+        if (!$this->actus->contains($actu)) {
+            $this->actus->add($actu);
+            $actu->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActu(Actu $actu): self
+    {
+        if ($this->actus->removeElement($actu)) {
+            // set the owning side to null (unless already changed)
+            if ($actu->getService() === $this) {
+                $actu->setService(null);
             }
         }
 

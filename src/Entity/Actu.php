@@ -40,6 +40,12 @@ class Actu
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateEnreg = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $dateModif = null;
+
+    #[ORM\ManyToOne(inversedBy: 'actus')]
+    private ?Service $service = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,5 +143,29 @@ class Actu
     public function __toString()
     {
         return $this->titre;
+    }
+
+    public function getDateModif(): ?\DateTimeInterface
+    {
+        return $this->dateModif;
+    }
+
+    public function setDateModif(\DateTimeInterface $dateModif): self
+    {
+        $this->dateModif = $dateModif;
+
+        return $this;
+    }
+
+    public function getService(): ?Service
+    {
+        return $this->service;
+    }
+
+    public function setService(?Service $service): self
+    {
+        $this->service = $service;
+
+        return $this;
     }
 }

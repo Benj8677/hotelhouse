@@ -54,7 +54,7 @@ class CartController extends AbstractController
                 $commande->setMembre($membre);
                 $commande->setDateDeb($debut);
                 $commande->setDateFin($fin);
-                $commande->setPrenom($this->getUser()->getPrenom());
+                $commande->setPrenom($membre->getPrenom());
                 $commande->setNom($membre->getNom());
                 $commande->setEmail($membre->getEmail());
                 $commande->setTelephone($form->get("telephone")->getData());
