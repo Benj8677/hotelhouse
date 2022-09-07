@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Page;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -38,5 +40,11 @@ class PageCrudController extends AbstractCrudController
         $entityInstance->setDateModif(new \DateTime);
         $entityManager->persist($entityInstance);
         $entityManager->flush();
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->disable(Action::NEW, Action::DELETE);
     }
 }

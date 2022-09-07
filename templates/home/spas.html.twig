@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des spas{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('success') %}
+        <div class="alert alert-success text-center">{{ message }}</div>
+{% endfor %}
+
+<section class="row articles text-center justify-content-center">
+<h1 class="display-3 my-5 fw-bold">Nos spas</h1>
+{% set float = 'right' %}
+{% for spa in tabSpas %}
+    {% if float == 'right' %}
+        {% set float = 'left' %}
+    {% else %}
+        {% set float = 'right' %}
+    {% endif %}
+    <article class="col-8 mx-3 text-center border border-secondary mt-3 p-3 rounded shadow" style="z-index:0;">
+        <a href="{{ path('app_spa', {id:spa.id}) }}" class="text-decoration-none text-warning"><h2 class="fw-bold">{{ spa.titre }}</h2></a>
+        <div class="content" style="min-height:150px;">
+            <a href="{{ path('app_spa', {id:spa.id}) }}"><img src="{{ asset('img/service/' ~ spa.photo) }}" alt="" class="img-fluid mx-2" style="float:{{ float }};max-width:250px;"></a>
+            <a href="{{ path('app_spa', {id:spa.id}) }}" class="text-decoration-none text-dark"><p>{{ spa.descShort|raw }}</p></a>
+        </div><a href="{{ path('app_spa', {id:spa.id}) }}" class="btn btn-primary">Détail</a>
+        {% if app.user %}
+            {% if spa.nbPlace>0 %}
+            {# <a href="{{ path('cart_add', {id:spa.id}) }}" class="btn btn-info ms-3">Réserver</a> #}
+            {% else %}
+                <span class="btn text-danger ms-3">Indisponible</span>
+            {% endif %}
+            
+        {% else %}
+            <a href="#" class="btn btn-info ms-3" onclick="getElementById('connect').style.display='';getElementById('body').style='background-color: rgba(0, 0, 0, 0.4);';">Se connecter</a>
+        {% endif %}
+    </article>
+
+{% endfor %}
+</section>
+
+{% endblock %}

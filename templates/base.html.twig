@@ -38,8 +38,8 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Service</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Restaurant</a>
-            <a class="dropdown-item" href="#">Spa</a>
+            <a class="dropdown-item" href="{{ path('app_restaurants') }}">Restaurant</a>
+            <a class="dropdown-item" href="{{ path('app_spas') }}">Spa</a>
             {# <a class="dropdown-item" href="#">Something else here</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a> #}
@@ -201,10 +201,10 @@
               <a href="{{ path('app_chambres') }}" class="text-dark">Les chambres</a>
             </li>
             <li>
-              <a href="#!" class="text-dark">Le restaurant</a>
+              <a href="{{ path('app_restaurants') }}" class="text-dark">Le restaurant</a>
             </li>
             <li>
-              <a href="#!" class="text-dark">Le spa</a>
+              <a href="{{ path('app_spas') }}" class="text-dark">Le spa</a>
             </li>
             <li>
               <a href="{{ path('app_actu') }}" class="text-dark">Les actualités</a>

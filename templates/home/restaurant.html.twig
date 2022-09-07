@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ chambre.titre }}{% endblock %}
+{% block title %}{{ restaurant.titre }}{% endblock %}
 
 {% block body %}
 
@@ -12,17 +12,16 @@
 
     <article class="col-md-10 mx-auto text-center border border-dark my-3 p-3">
         <div class="content">
-            <h2 class='text-warning fw-bold'>{{ chambre.titre }}</h2>
-            <p class="text-secondary">{{ chambre.descShort|raw }}</p>
-            <img src="{{ asset('img/chambre/' ~ chambre.photo) }}" alt="" class="img-fluid me-2" style="max-width:400px;float:left;">
-            <p class="text-secondary">{{ chambre.descLong|raw }}</p>
+            <h2 class='text-warning fw-bold'>{{ restaurant.titre }}</h2>
+            <p class="text-secondary">{{ restaurant.descShort|raw }}</p>
+            <img src="{{ asset('img/service/' ~ restaurant.photo) }}" alt="" class="img-fluid me-2" style="max-width:400px;float:left;">
+            <p class="text-secondary">{{ restaurant.descLong|raw }}</p>
         </div>
-        <div class="metadata text-info">Prix : {{ chambre.prix }} €</div>
         {% if app.user %}
-            {% if chambre.nbChambre>0 %}
-            <a href="{{ path('cart_add', {id:chambre.id}) }}" class="btn btn-outline-success m-3">Réserver</a>
+            {% if restaurant.nbPlace>0 %}
+            {# <a href="{{ path('cart_add', {id:restaurant.id}) }}" class="btn btn-outline-success m-3">Réserver</a> #}
             {% else %}
-                <span class="text-danger">chambre indisponible</span>
+                <span class="text-danger">restaurant indisponible</span>
             {% endif %}
         {% else %}
             <a href="{{ path('app_register') }}" class="btn btn-outline-success m-3">Créer un compte</a>

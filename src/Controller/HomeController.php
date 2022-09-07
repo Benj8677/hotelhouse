@@ -8,6 +8,7 @@ use App\Repository\ActuRepository;
 use App\Repository\PageRepository;
 use App\Repository\SliderRepository;
 use App\Repository\ChambreRepository;
+use App\Repository\ServiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,6 +41,42 @@ class HomeController extends AbstractController
         $actu = $repo->findBy([], ["dateActu" => "DESC"]);
         return $this->render('home/actu.html.twig', [
             'tabActus' => $actu,
+        ]);
+    }
+
+    #[Route('/restaurants', name: 'app_restaurants')]
+    public function restos(ServiceRepository $repo): Response
+    {
+        $restaurants = $repo->findBy(["type" => "Restaurant"], ["id" => "ASC"]);
+        return $this->render('home/restaurants.html.twig', [
+            'tabRestaurants' => $restaurants,
+        ]);
+    }
+
+    #[Route('/restaurant/{id}', name: 'app_restaurant')]
+    public function resto(ServiceRepository $repo, $id): Response
+    {
+        $restaurant = $repo->find($id);
+        return $this->render('home/restaurant.html.twig', [
+            'restaurant' => $restaurant,
+        ]);
+    }
+
+    #[Route('/spas', name: 'app_spas')]
+    public function spas(ServiceRepository $repo): Response
+    {
+        $spas = $repo->findBy(["type" => "Spa"], ["id" => "ASC"]);
+        return $this->render('home/spas.html.twig', [
+            'tabSpas' => $spas,
+        ]);
+    }
+
+    #[Route('/spa/{id}', name: 'app_spa')]
+    public function spa(ServiceRepository $repo, $id): Response
+    {
+        $spa = $repo->find($id);
+        return $this->render('home/spa.html.twig', [
+            'spa' => $spa,
         ]);
     }
 
