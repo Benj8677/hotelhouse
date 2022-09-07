@@ -49,7 +49,7 @@
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">L'hotel</a>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="{{ path('app_page', {id:2}) }}">Qui sommes-nous ?</a>
-            <a class="dropdown-item" href="#">Actualités</a>
+            <a class="dropdown-item" href="{{ path('app_actu') }}">Actualités</a>
             <a class="dropdown-item" href="{{ path('app_page', {id:1}) }}">Accès</a>
             <a class="dropdown-item" href="{{ path('app_contact') }}">Contact</a>
           </div>
@@ -155,7 +155,7 @@
 
             <!-- Submit button -->
             <button type="submit" class="btn btn-primary mb-4">
-              Subscribe
+              S'inscrire
             </button>
           </div>
           <!--Grid column-->
@@ -198,16 +198,16 @@
 
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="#!" class="text-dark">Link 1</a>
+              <a href="{{ path('app_chambres') }}" class="text-dark">Les chambres</a>
             </li>
             <li>
-              <a href="#!" class="text-dark">Link 2</a>
+              <a href="#!" class="text-dark">Le restaurant</a>
             </li>
             <li>
-              <a href="#!" class="text-dark">Link 3</a>
+              <a href="#!" class="text-dark">Le spa</a>
             </li>
             <li>
-              <a href="#!" class="text-dark">Link 4</a>
+              <a href="{{ path('app_actu') }}" class="text-dark">Les actualités</a>
             </li>
           </ul>
         </div>
@@ -238,17 +238,26 @@
           <h5 class="text-secondary">Autre</h5>
 
           <ul class="list-unstyled mb-0">
+          {% if app.user %}
             <li>
-              <a href="#!" class="text-dark">Link 1</a>
+              <a href="{{ path('app_compte') }}" class="text-dark">Mon compte</a>
             </li>
             <li>
-              <a href="#!" class="text-dark">Link 2</a>
+              <a href="{{ path('app_logout') }}" class="text-dark">Se déconnecter</a>
+            </li>
+          {% else %}
+            <li>
+              <a href="{{ path('app_register') }}" class="text-dark">Créer un compte</a>
             </li>
             <li>
-              <a href="#!" class="text-dark">Link 3</a>
+              <a href="#!" class="text-dark" onclick="getElementById('connect').style.display='';">Se connecter</a>
+            </li>
+          {% endif %}
+            <li>
+              <a href="{{ path('app_contact') }}" class="text-dark">Contact</a>
             </li>
             <li>
-              <a href="#!" class="text-dark">Link 4</a>
+              <a href="#!" class="text-dark">Newsletter</a>
             </li>
           </ul>
         </div>

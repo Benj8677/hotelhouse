@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Repository\ActuRepository;
 use App\Repository\PageRepository;
 use App\Repository\SliderRepository;
 use App\Repository\ChambreRepository;
@@ -30,6 +31,15 @@ class HomeController extends AbstractController
         $page = $repo->find($id);
         return $this->render('home/page.html.twig', [
             'page' => $page,
+        ]);
+    }
+
+    #[Route('/actu', name: 'app_actu')]
+    public function actu(ActuRepository $repo): Response
+    {
+        $actu = $repo->findBy([], ["dateActu" => "DESC"]);
+        return $this->render('home/actu.html.twig', [
+            'tabActus' => $actu,
         ]);
     }
 

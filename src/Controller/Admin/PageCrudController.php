@@ -21,7 +21,7 @@ class PageCrudController extends AbstractCrudController
     {
         return [
             TextField::new('titre'),
-            ImageField::new('photo')->setBasePath('img/chambre/')->setUploadedFileNamePattern('[ulid].[extension]')->setUploadDir('public/img/chambre')->setRequired(false),
+            ImageField::new('photo')->setBasePath('img/page/')->setUploadedFileNamePattern('[ulid].[extension]')->setUploadDir('public/img/page')->setRequired(false),
             TextEditorField::new('contenu'),
         ];
     }

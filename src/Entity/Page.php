@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\PageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: PageRepository::class)]
 class Page
@@ -22,6 +25,11 @@ class Page
 
     #[ORM\Column(length: 120, nullable: true)]
     private ?string $photo = null;
+
+    /**
+     * @Vich\UploadableField(mapping="pages", fileNameProperty="photo")
+     */
+    private $imageFile = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateEnreg = null;
@@ -90,6 +98,23 @@ class Page
     public function setDateModif(\DateTimeInterface $dateModif): self
     {
         $this->dateModif = $dateModif;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): ?Self
+    {
+        $this->imageFile = $imageFile;
+
+        if($this->imageFile instanceof UploadedFile)
+        {
+            $this->dateModif = new \DateTime;
+        }
 
         return $this;
     }

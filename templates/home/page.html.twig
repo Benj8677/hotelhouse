@@ -8,9 +8,17 @@
         <div class="alert alert-success text-center">{{ message }}</div>
 {% endfor %}
 
-<section class="row articles text-center justify-content-center">
+<section class="articles text-center">
 <h1 class="display-3 my-5 fw-bold">{{ page.titre }}</h1>
+<img src="{{ asset('img/page/' ~ page.photo) }}" alt="" class="img-fluid me-4 mb-2" style="float:left;max-width:450px;">
 {{ page.contenu|raw }}
+
+{% if page.id == 1 %}
+
+<div class="col-8 mx-auto"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1103.5268928068417!2d2.3017757538118633!3d48.86499733685977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fdd0dd39a4d%3A0x508194b82b12f012!2s1%20Av.%20Montaigne%2C%2075008%20Paris!5e0!3m2!1sfr!2sfr!4v1662542094420!5m2!1sfr!2sfr" width="400" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+
+{% endif %}
+
 </section>
 
 {% endblock %}
