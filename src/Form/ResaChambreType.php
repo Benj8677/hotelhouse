@@ -6,14 +6,19 @@ use App\Entity\Commande;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class ResaChambreType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('dateDeb')
-            ->add('dateFin')
+            ->add('dateDeb', DateTimeType::class, [
+                'widget' => 'single_text',
+            ])
+            ->add('dateFin', DateTimeType::class, [
+                'widget' => 'single_text',
+            ])
             ->add('telephone')
         ;
     }
