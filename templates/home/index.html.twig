@@ -47,17 +47,24 @@
 
 
 
-<div class="container d-flex my-4">
-  <div class="col-2 mx-auto">
-    <div style="border-radius:50%;width:150px;height:150px;background-image:url('/img/chambre/chambre150.jpg')"></div>
-    <p>Venez découvrir nos chambres</p>
-    <a href="" class="btn btn-info">Découvrir les chambres</a>
+<div class="container row my-4">
+  <div class="col-8 col-sm-6 col-md-6 col-lg-4 col-xl-2 mx-auto text-center rounded shadow py-2">
+    <div class="mx-auto" style="border-radius:50%;width:150px;height:150px;background-image:url('/img/chambre/chambre150.jpg')"></div>
+    <h3>Chambre</h3>
+    <p style="min-height:100px;">Venez découvrir nos chambres !</p>
+    <a href="{{ path('app_chambres') }}" class="btn btn-info">Découvrir les chambres</a>
   </div>
-  <div class="col-2 mx-auto">
-    <div style="border-radius:50%;width:150px;height:150px;background-image:url('/img/chambre/01GC6VQ92PZFYMMQKAEBX88EXQ.jpg')"></div>
+  <div class="col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2 mx-auto text-center rounded shadow py-2">
+    <div class="mx-auto" style="border-radius:50%;width:150px;height:150px;background-image:url('/img/service/resto150.jpg')"></div>
+    <h3>Restaurant</h3>
+    <p style="min-height:100px;">Nos plats sont confectionnés à la minute par notre chef cuisinier chaque jour.</p>
+    <a href="{{ path('app_restaurants') }}" class="btn btn-info">Voir la carte</a>
   </div>
-  <div class="col-2 mx-auto">
-    <div style="border-radius:50%;width:150px;height:150px;background-image:url('/img/chambre/01GC6VQ92PZFYMMQKAEBX88EXQ.jpg')"></div>
+  <div class="col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2 mx-auto text-center rounded shadow py-2">
+    <div class="mx-auto" style="border-radius:50%;width:150px;height:150px;background-image:url('/img/service/spa150.jpg')"></div>
+    <h3>Spa</h3>
+    <p style="min-height:100px;">Détendez-vous et offrez-vous un massage dont vous vous rappellerez longtemps.</p>
+    <a href="{{ path('app_spas') }}" class="btn btn-info">Les soins</a>
   </div>
 </div>
 {% endblock %}
