@@ -37,36 +37,43 @@ class CartController extends AbstractController
                 $dateD = $form->get("dateDeb")->getData()->getTimestamp();
                 $dateR = $form->get("dateFin")->getData()->getTimestamp();
                 
-                $debut = (new \DateTime())->setTimestamp($dateD);
-                $fin = (new \DateTime())->setTimestamp($dateR);
-                
-                foreach ($cartWithData as $cart)
+                if ($dateD<$dateR)
                 {
-                    $order = new Order;
-                    $order->setChambre($cart['product']);
-                    $order->setCommande($commande);
-                    $order->setQuantite($cart['quantity']);
-                    $commande->addOrder($order);
-                    $manager->persist($order);
-                }
-                $membre = $this->getUser();
-                $commande->setDateEnreg(new \DateTime());
-                $commande->setMembre($membre);
-                $commande->setDateDeb($debut);
-                $commande->setDateFin($fin);
-                $commande->setPrenom($membre->getPrenom());
-                $commande->setNom($membre->getNom());
-                $commande->setEmail($membre->getEmail());
-                $commande->setTelephone($form->get("telephone")->getData());
-                //dd($commande);
-                $manager->persist($commande);
-                $manager->flush();
+                    $debut = (new \DateTime())->setTimestamp($dateD);
+                    $fin = (new \DateTime())->setTimestamp($dateR);
+                    foreach ($cartWithData as $cart)
+                    {
+                        $order = new Order;
+                        $order->setChambre($cart['product']);
+                        $order->setCommande($commande);
+                        $order->setQuantite($cart['quantity']);
+                        $commande->addOrder($order);
+                        $manager->persist($order);
+                    }
+                    $membre = $this->getUser();
+                    $commande->setDateEnreg(new \DateTime());
+                    $commande->setMembre($membre);
+                    $commande->setDateDeb($debut);
+                    $commande->setDateFin($fin);
+                    $commande->setPrenom($membre->getPrenom());
+                    $commande->setNom($membre->getNom());
+                    $commande->setEmail($membre->getEmail());
+                    $commande->setTelephone($form->get("telephone")->getData());
+                    //dd($commande);
+                    $manager->persist($commande);
+                    $manager->flush();
 
-                $cs->removeAll();
-                $this->addFlash('success', "Votre réservation a été enregistré !");
-                return $this->redirectToRoute('app_compte',[
-                    'membre' => $membre,
-                ]);
+                    $cs->removeAll();
+                    $this->addFlash('success', "Votre réservation a été enregistré !");
+                    return $this->redirectToRoute('app_compte',[
+                        'membre' => $membre,
+                    ]);
+                }
+                else
+                {
+                    $this->addFlash('error', "Vos dates de réservation sont invalide !");
+                    return $this->redirectToRoute("app_cart");
+                }
             }
         }
 

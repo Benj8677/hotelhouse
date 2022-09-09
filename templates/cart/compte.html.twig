@@ -37,17 +37,22 @@
         <tbody>
     {% set commandes = membre.commandes|sort|reverse %}
     {% for commande in commandes %}
+        {% set total = 0 %}
             <tr class="align-middle">
                 <td scope="row" class='align-top'>{{ commande.dateEnreg|date("d/m/Y à H:i") }}</td>
                 <td scope="row" class='align-top'>{{ commande.dateDeb|date("d/m/Y à H:i") }}</td>
                 <td scope="row" class='align-top'>{{ commande.dateFin|date("d/m/Y à H:i") }}</td>
-				<td>{% set total = 0 %}
+                {% set interval = commande.dateFin.diff(commande.dateDeb)|date("%D") %}
+                {% if interval==0 %}
+                {% set interval = interval+1 %}
+                {% endif %}
+				<td>
                 {% for order in commande.orders %}
 				{{ order.chambre.titre }} / Qté : {{ order.quantite }}<hr class="m-0 p-0 text-white">
-                {% set total = total + order.chambre.prix * order.quantite %}
+                {% set total = interval * (total + order.chambre.prix * order.quantite) %}
 				{% endfor %}
                 </td>
-                <td class='align-top'>{{ total }} €</td>
+                <td class='align-top'>{{ total }}&nbsp;€</td>
             </tr>
     {% endfor %}
         </tbody>

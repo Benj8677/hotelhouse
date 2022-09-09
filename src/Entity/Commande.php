@@ -31,7 +31,7 @@ class Commande
     #[ORM\Column(length: 120)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 20, nullable: true)]
+    #[ORM\Column(length: 20)]
     private ?string $telephone = null;
 
     #[ORM\Column(length: 120)]

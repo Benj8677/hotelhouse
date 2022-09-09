@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 
 class ResaChambreType extends AbstractType
 {
@@ -15,11 +16,21 @@ class ResaChambreType extends AbstractType
         $builder
             ->add('dateDeb', DateTimeType::class, [
                 'widget' => 'single_text',
+                'attr' => array(
+                    'min' => (new \DateTime())->format('Y-m-d H:i'),
+                    'max' => (new \DateTime('+1 year'))->format('Y-m-d H:i'),
+                )
             ])
             ->add('dateFin', DateTimeType::class, [
                 'widget' => 'single_text',
+                'attr' => array(
+                    'min' => (new \DateTime())->format('Y-m-d H:i'),
+                    'max' => (new \DateTime('+1 year'))->format('Y-m-d H:i'),
+                )
             ])
-            ->add('telephone')
+            ->add('telephone', TelType::class, [
+                'required' => true,
+            ])
         ;
     }
 

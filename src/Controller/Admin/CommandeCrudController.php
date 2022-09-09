@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class CommandeCrudController extends AbstractCrudController
@@ -22,6 +23,7 @@ class CommandeCrudController extends AbstractCrudController
         return [
             DateTimeField::new('dateDeb', 'Date d\'arrivée')->setFormat('d/M/y'),
             DateTimeField::new('dateFin', 'Date de départ')->setFormat('d/M/y'),
+            CollectionField::new('orders')->setTemplatePath('admin/field/orders.html.twig'),
             TextField::new('nom'),
             TextField::new('prenom'),
             TextField::new('email'),

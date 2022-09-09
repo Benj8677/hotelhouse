@@ -50,7 +50,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Service', 'fas fa-utensils', Service::class),
             MenuItem::section('Contact'),
             MenuItem::linkToCrud('Message', 'fas fa-envelope', Contact::class),
-            MenuItem::linkToCrud('Avis', 'fas fa-comment', Avis::class),
+            //MenuItem::linkToCrud('Avis', 'fas fa-comment', Avis::class),
             MenuItem::linkToCrud('Inscrit Newsletter', 'fas fa-list', Newsletter::class),
             MenuItem::section('Site'),
             MenuItem::linkToCrud('Actualité', 'fas fa-info', Actu::class),
