@@ -130,7 +130,8 @@
 
     <!-- Section: Form -->
     <section class="">
-      <form action="">
+      <form action="{{ path('app_news') }}">
+      <input type="hidden" name="action" value="add">
         <!--Grid row-->
         <div class="row d-flex justify-content-center">
           <!--Grid column-->
@@ -145,7 +146,7 @@
           <div class="col-md-5 col-12">
             <!-- Email input -->
             <div class="form-outline mb-4">
-              <input type="email" id="form5Example2" class="form-control" placeholder="Votre adresse e-mail" />
+              <input type="email" name="email" id="form5Example2" class="form-control" placeholder="Votre adresse e-mail" />
             </div>
           </div>
           <!--Grid column-->

@@ -81,10 +81,17 @@ class CartController extends AbstractController
     #[Route('/compte', name: 'app_compte')]
     public function compte(): Response
     {
-        $user = $this->getUser();
-        return $this->render('cart/compte.html.twig', [
-            'membre' => $user,
-        ]);
+        if ($this->getUser())
+        {
+            $user = $this->getUser();
+            return $this->render('cart/compte.html.twig', [
+                'membre' => $user,
+            ]);
+        }
+        else
+        {
+            return $this->redirectToRoute('app_login');
+        }
     }
 
     #[Route('/cartend', name: 'app_cart_end')]

@@ -9,6 +9,7 @@ use App\Entity\Slider;
 use App\Entity\Chambre;
 use App\Entity\Contact;
 use App\Entity\Commande;
+use App\Entity\Newsletter;
 use App\Entity\Page;
 use App\Entity\Service;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,9 +48,11 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Membre', 'fas fa-user', Membre::class),
             MenuItem::linkToCrud('Chambre', 'fas fa-moon', Chambre::class),
             MenuItem::linkToCrud('Service', 'fas fa-utensils', Service::class),
-            MenuItem::section('Site'),
+            MenuItem::section('Contact'),
             MenuItem::linkToCrud('Message', 'fas fa-envelope', Contact::class),
             MenuItem::linkToCrud('Avis', 'fas fa-comment', Avis::class),
+            MenuItem::linkToCrud('Inscrit Newsletter', 'fas fa-list', Newsletter::class),
+            MenuItem::section('Site'),
             MenuItem::linkToCrud('Actualité', 'fas fa-info', Actu::class),
             MenuItem::linkToCrud('Slider', 'fas fa-images', Slider::class),
             MenuItem::linkToCrud('Page du site', 'fas fa-solid fa-file', Page::class),

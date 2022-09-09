@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription à notre newsletter{% endblock %}
+
+{% block body %}
+<div class="container mb-3 col-8 mx-auto">
+{% for message in app.flashes('success') %}
+        <div class="alert alert-success text-center">{{ message }}</div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+        <div class="alert alert-success text-warning">{{ message }}</div>
+{% endfor %}
+
+<h1 class="my-5 fw-bold">Inscription à la newsletter</h1>
+
+
+    <div>
+          <form action="{{ path('app_news') }}">
+            <input type="hidden" name="action" value="add">
+            <div class="form-outline mb-4">
+              <input type="email" name="email" id="form5Example2" class="form-control" placeholder="Votre adresse e-mail" />
+            </div>
+
+            <button type="submit" class="btn btn-primary mb-4">
+              S'inscrire
+            </button>
+            </form>
+    </div>
+<hr>
+<h2 class="my-5 fw-bold">Désinscription à la newsletter</h2>
+
+
+    <div>
+          <form action="{{ path('app_news') }}">
+            <input type="hidden" name="action" value="sup">
+            <div class="form-outline mb-4">
+              <input type="email" name="email" id="form5Example2" class="form-control" placeholder="Votre adresse e-mail" />
+            </div>
+
+            <button type="submit" class="btn btn-primary mb-4">
+              Se désinscrire
+            </button>
+            </form>
+    </div>
+
+    {# {{ form_start(newsletterForm) }}
+        {{ form_row(newsletterForm.email) }}
+        <input type="hidden" name="action" value="add">
+        <button type="submit" class="btn btn-primary my-2">S'inscrire</button>
+    {{ form_end(newsletterForm) }} #}
+</div>
+{% endblock %}

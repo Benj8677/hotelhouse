@@ -3,19 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\Membre;
+use App\Entity\Newsletter;
 use App\Form\RegistrationFormType;
+use App\Repository\NewsletterRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(NewsletterRepository $repo, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new Membre();
         $user->setDateEnreg(new \DateTime());
@@ -30,6 +32,15 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            if ($user->isNewsletter())
+            {
+                if (!$repo->findBy(["email" => $user->getEmail()]))
+                {
+                    $news = new Newsletter;
+                    $news->setEmail($user->getEmail());
+                    $entityManager->persist($news);
+                }
+            }
 
             $entityManager->persist($user);
             $entityManager->flush();
